@@ -2,9 +2,10 @@
 <html>
 <head>
   <title>Register</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <div class="container">
   <h2>Register</h2>
   <form action="/register" method="post">
     <label>Username:</label>
@@ -13,8 +14,15 @@
     <input type="email" name="email"><br>
     <label>Password:</label>
     <input type="password" name="password"><br>
+    <label>First Name:</label>
+    <input type="firstname" name="firstname"><br>
+    <label>Last Name:</label>
+    <input type="Medical Record Number" name="medNumber"><br>
+    <label>Medical Record Number:</label>
+    <input type="lastname" name="lastname"><br>
     <button type="submit">Register</button>
   </form>
-  <a href="/login">Back to Login</a>
+  <a href="login.html">Back to Login</a>
+  </div>
 </body>
 </html>
