@@ -87,5 +87,9 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void changePassword(User user)
+    {
+
+    }
 
 }
