@@ -18,23 +18,23 @@ public class User {
     @Id
     @SequenceGenerator(
             name = "user_sequence",
-            sequenceName = "user_sequence", // ✅ fixed typo
+            sequenceName = "user_sequence", //
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long userID;
 
-    @Column(name = "user_email", nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "user_pass", nullable = false)
+    @Column(name = "pass", nullable = false)
     private String userPass;
 
-    @Column(name = "user_first_name", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String fName;
 
     @Column(name = "last_name", nullable = false)
@@ -43,13 +43,13 @@ public class User {
     @Column(name = "dob", nullable = false)
     private LocalDate dob;
 
-    // ✅ Utility method to parse dob from string
+    // Utility method to parse dob from string
     public void setDobFromString(String dobString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.dob = LocalDate.parse(dobString, formatter);
     }
 
-    // ✅ All-args constructor (optional, keep if you use it)
+    // All-args constructor
     public User(Long userID, String email, String userPass, String fName, String lName, LocalDate dob) {
         this.userID = userID;
         this.email = email;
@@ -59,7 +59,7 @@ public class User {
         this.dob = dob;
     }
 
-    // ✅ Constructor without ID (for insert cases)
+    // Constructor without ID (for insert cases)
     public User(String email, String userPass, String fName, String lName, LocalDate dob) {
         this.email = email;
         this.userPass = userPass;
@@ -68,7 +68,7 @@ public class User {
         this.dob = dob;
     }
 
-    // ✅ Optional: default initialization in @NoArgsConstructor handled properly
+    //  default initialization in handled properly
     @PostLoad
     public void initDefaults() {
         if (this.dob == null) {
