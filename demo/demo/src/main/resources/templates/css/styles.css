@@ -2,19 +2,90 @@
   box-sizing: border-box;
 }
 
+header {
+  background-color: #333;
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header a {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+.home-click {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.site-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 16px;
+}
+
+.main-content {
+  text-align: center;
+  padding: 80px 80px;
+  background-color: #eaeaea;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1)
+}
+
+.main-content h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.main-content p {
+  font-size: 20px;
+  color: #555;
+}
+
+.logo{
+    display: block;
+    margin: auto;
+    width: 50%;
+    height: auto;
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  font-size: 14px;
+}
+
 body {
   font-family: Arial, sans-serif;
   padding: 20px;
-  background-color: lightblue; /* Changed to lightblue */
+  background-color: lightblue;
 }
+
 h2 {
   color: #333;
 }
+
 form {
   background: #fff;
   padding: 15px;
   border-radius: 5px;
 }
+
   input {
     margin: 5px 0;
     padding: 8px;
@@ -22,6 +93,7 @@ form {
     border: 1px solid #ccc;
     border-radius: 4px;
   }
+
 button {
   padding: 8px 15px;
   background-color: #4285f4;
@@ -29,14 +101,16 @@ button {
   border: none;
   cursor: pointer;
 }
+
 a {
   display: inline-block;
   margin-top: 10px;
   color: #4285f4;
 }
+
 .container {
   width: 400px;
-  margin: 50px auto; /* centers it horizontally */
+  margin: 50px auto; 
   padding: 20px;
   border: 2px solid #ccc;
   border-radius: 10px;
