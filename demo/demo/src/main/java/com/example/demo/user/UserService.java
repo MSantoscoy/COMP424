@@ -1,4 +1,7 @@
 package com.example.demo.user;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.UserResponse;
+import com.example.demo.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,9 +18,51 @@ public class UserService {
     @Autowired
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(PasswordEncoder passwordEncoder) {
+    @Autowired
+    private final TokenService tokenService;
+
+    public UserService(PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.passwordEncoder = passwordEncoder;
+        this.tokenService = tokenService;
     }
+
+    public void updateUser(Long id, User updatedUser) {
+        User existing = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        existing.setFName(updatedUser.getFName());
+        existing.setLName(updatedUser.getLName());
+        existing.setEmail(updatedUser.getEmail()); // optional
+
+        userRepository.save(existing);
+    }
+
+
+    public String login(LoginRequest request) {
+        User user = userRepository.findByEmailIgnoreCase(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getUserPass())) {
+            throw new IllegalArgumentException("Invalid email or password");
+        }
+
+        //check if account is activated
+//        if (!user.isEnabled()) {
+//            throw new IllegalArgumentException("Account not activated");
+//        }
+
+        return tokenService.generateToken(user.getEmail());
+    }
+
+    public UserResponse getCurrentUser() {
+        // Get email from token (in real app, from SecurityContextHolder or token service)
+        String email = tokenService.extractCurrentUserEmail(); // Create this helper if needed
+        User user = userRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        return new UserResponse(user.getEmail(), user.getFName(), user.getLName());
+    }
+
 
     // special characters needed for password validation !@#$%^&*
    static String specialChars = ".*[!@#$%^&*].*";
@@ -87,9 +132,19 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void changePassword(User user)
-    {
+    public void changePassword(ChangePasswordRequest request) {
+        User user = userRepository.findByEmailIgnoreCase(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getUserPass())) {
+            throw new IllegalArgumentException("Incorrect current password");
+        }
+
+        validatePass(request.getNewPassword());
+        user.setUserPass(passwordEncoder.encode(request.getNewPassword()));
+
+        userRepository.save(user);
     }
+
 
 }
