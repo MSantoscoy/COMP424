@@ -117,3 +117,42 @@ a {
   background-color: #f9f9f9;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
+/* Passwordrequirements */
+
+.requirement.met {
+  text-decoration: line-through;
+  color: #ccc;
+}
+
+.requirement {
+  transition: all 0.3s ease;
+}
+
+.strength {
+  font-weight: bold;
+}
+
+.weak {
+  color: red;
+}
+
+.medium {
+  color: orange;
+}
+
+.strong {
+  color: green;
+}
+
+.requirements {
+  font-size: 0.9em;
+  margin-top: 5px;
+  color: #555;
+  margin-bottom: 0px;
+}
+
+.requirements li {
+  list-style: circle;
+  margin-left: 20px;
+}
