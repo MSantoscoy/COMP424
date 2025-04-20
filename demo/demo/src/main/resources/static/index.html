@@ -3,6 +3,7 @@
 <head>
   <title>Register</title>
   <link rel="stylesheet" href="css/styles.css">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 
@@ -15,6 +16,15 @@
     <form id="registerForm" action="/register" method="post">
       <label>Username:</label>
       <input type="text" name="username" required><br>
+
+      <label>First Name:</label>
+      <input type="text" name="firstname" required><br>
+
+      <label>Last Name:</label>
+      <input type="text" name="lastname" required><br>
+
+      <label>Birth Date:</label>
+      <input type="date" name="bday" required><br>
 
       <label>Email:</label>
       <input type="email" name="email" required><br>
@@ -32,15 +42,11 @@
       
       <div id="strengthMessage" class="strength"></div>
 
-      <label>First Name:</label>
-      <input type="text" name="firstname" required><br>
+      <label>Re-enter Password:</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required><br>
+      <div id="matchMessage" class="match-message"></div>
 
-      <label>Last Name:</label>
-      <input type="text" name="lastname" required><br>
-
-      <label>Birth Date:</label>
-      <input type="date" name="bday" required><br>
-
+      <div class="g-recaptcha" data-sitekey="6Le1bB4rAAAAAE_Deyha_dazdAw_7qE2mjvFKGVk"></div>
       <button type="submit">Register</button>
     </form>
     <a href="login.html">Already Registered? Login here </a>
@@ -102,14 +108,64 @@
         strengthMessage.textContent = "Strong password";
         strengthMessage.className = "strength strong";
       }
+
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      const matchMessage = document.getElementById('matchMessage');
+
+      // Check if both passwords match
+      function checkPasswordMatch() {
+        const original = passwordInput.value;
+        const confirm = confirmPasswordInput.value;
+
+        // if re-enter input is empty don't display anything
+        if (confirm === "") {
+          matchMessage.textContent = "";
+          matchMessage.className = "match-message";
+          return false;
+        }
+        // if the passwords match display they match
+        if (original === confirm) {
+          matchMessage.textContent = "Passwords match";
+          matchMessage.className = "match-message match";
+          return true;
+        } else { // if they do not match display they don't
+          matchMessage.textContent = "Passwords do not match";
+          matchMessage.className = "match-message";
+          return false;
+        }
+      }
+
+      passwordInput.addEventListener('input', checkPasswordMatch);
+      confirmPasswordInput.addEventListener('input', checkPasswordMatch);
     });
   
-    // Prevent form submission if password is not valid
-    form.addEventListener('submit', (e) => {
-      const { isValid } = validatePassword(passwordInput.value);
-      if (!isValid) {
-        e.preventDefault();
-        alert("Your password does not meet all security requirements.");
-      }
-    });
+    // Prevent form submission if password or captcha are not valid
+    form.addEventListener('submit', function (e) {
+    const { isValid } = validatePassword(passwordInput.value);
+    const passwordsMatch = checkPasswordMatch();
+    const captchaFilled = grecaptcha.getResponse() !== "";
+
+    // Check password strength
+    if (!isValid) {
+      e.preventDefault();
+      alert("Your password does not meet all security requirements.");
+      return;
+    }
+
+    // Check password match
+    if (!passwordsMatch) {
+      e.preventDefault();
+      alert("Passwords do not match.");
+      return;
+    }
+
+    // Check if reCAPTCHA was completed
+    if (!captchaFilled) {
+      e.preventDefault();
+      alert("Please complete the CAPTCHA.");
+      return;
+    }
+
+  });
+    
   </script>

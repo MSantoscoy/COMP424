@@ -156,3 +156,12 @@ a {
   list-style: circle;
   margin-left: 20px;
 }
+
+.match-message {
+  font-size: 0.9em;
+  color: red;
+}
+
+.match-message.match {
+  color: green;
+}
