@@ -69,7 +69,10 @@ public class UserController
         userService.updateProfile(request);
         return ResponseEntity.ok("Updated");
     }
-
+    @RequestMapping(value = "/register", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> handleOptions() {
+        return ResponseEntity.ok().build();
+    }
     //Delete account
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
