@@ -6,18 +6,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController //Tells Spring this class handles HTTP requests
-@RequestMapping("/api/v1/security-questions") // Optional base path for all routes here
-public class SecurityQuestionsController {
 
-    private final SecurityQuestionsService questionService;
+    @RestController//Tells Spring this class handles HTTP requests
+    @RequestMapping("/api/v1/questions") // Optional base path for all routes here
+    public class SecurityQuestionsController {
 
-    public SecurityQuestionsController(SecurityQuestionsService questionService) {
-        this.questionService = questionService;
+        private final SecurityQuestionsService service;
+
+        public SecurityQuestionsController(SecurityQuestionsService service) {
+            this.service = service;
+        }
+
+        @GetMapping
+        public List<SecurityQuestions> getAllQuestions() {
+            return service.getAllQuestions();
+        }
     }
 
-    @GetMapping
-    public List<SecurityQuestions> getAllQuestions() {
-        return questionService.getAllQuestions();
-    }
-}
+
+

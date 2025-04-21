@@ -1,6 +1,6 @@
 package com.example.demo.security.userSecQuestions;
 
-import com.example.demo.dto.UserSecurityQuestionRequest;
+import com.example.demo.dto.SecurityAnswer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,7 @@ public class UserSecQuestionController {
     @PostMapping("/{userId}/save")
     public ResponseEntity<String> saveAnswers(
             @PathVariable Long userId,
-            @RequestBody List<UserSecurityQuestionRequest> requests) {
+            @RequestBody List<SecurityAnswer> requests) {
         service.saveUserAnswers(userId, requests);
         return ResponseEntity.ok("Security answers saved.");
     }
@@ -27,7 +27,7 @@ public class UserSecQuestionController {
     @PostMapping("/{userId}/verify")
     public ResponseEntity<String> verifyAnswers(
             @PathVariable Long userId,
-            @RequestBody List<UserSecurityQuestionRequest> requests) {
+            @RequestBody List<SecurityAnswer> requests) {
         boolean verified = service.verifyUserAnswers(userId, requests);
         return verified
                 ? ResponseEntity.ok("Verification successful.")

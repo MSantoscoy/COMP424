@@ -1,6 +1,6 @@
 package com.example.demo.security.userSecQuestions;
 
-import com.example.demo.dto.UserSecurityQuestionRequest;
+import com.example.demo.dto.SecurityAnswer;
 import com.example.demo.security.securityQuestions.SecurityQuestions;
 import com.example.demo.security.securityQuestions.SecurityQuestionsRepository;
 import com.example.demo.user.User;
@@ -28,10 +28,10 @@ public class UserSecQuestionService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void saveUserAnswers(Long userId, List<UserSecurityQuestionRequest> requests) {
+    public void saveUserAnswers(Long userId, List<SecurityAnswer> requests) {
         User user = userRepository.findById(userId).orElseThrow();
 
-        for (UserSecurityQuestionRequest req : requests) {
+        for (SecurityAnswer req : requests) {
             SecurityQuestions question = questionRepository.findById(req.getQuestionId()).orElseThrow();
 
             UserSecQuestion usq = new UserSecQuestion();
@@ -43,10 +43,10 @@ public class UserSecQuestionService {
         }
     }
 
-    public boolean verifyUserAnswers(Long userId, List<UserSecurityQuestionRequest> requests) {
+    public boolean verifyUserAnswers(Long userId, List<SecurityAnswer> requests) {
         User user = userRepository.findById(userId).orElseThrow();
 
-        for (UserSecurityQuestionRequest req : requests) {
+        for (SecurityAnswer req : requests) {
             SecurityQuestions question = questionRepository.findById(req.getQuestionId()).orElseThrow();
 
             UserSecQuestion usq = userSecQuestionRepository

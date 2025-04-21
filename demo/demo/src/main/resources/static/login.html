@@ -13,9 +13,9 @@
 
   <div class="container">
   <h2>Login</h2>
-  <form action="/login" method="post">
-    <label>Username:</label>
-    <input type="text" name="username" required><br>
+    <form id="loginForm">
+    <label>Email:</label>
+    <input type="text" name="email" required><br>
     <label>Password:</label>
     <input type="password" name="password" required><br>
     <button type="submit">Login</button>
@@ -26,5 +26,42 @@
  <footer>
     2025 ExampleSite. All rights reserved.
  </footer>
+
+  <script>
+    const form = document.getElementById("loginForm");
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const payload = {
+        email: formData.get("email"),  // maps to `email` field in LoginRequest DTO
+        password: formData.get("password")
+      };
+
+      try {
+        const response = await fetch("http://localhost:8080/api/v1/user/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem("token", data.token); // save JWT
+          alert("Login successful!");
+          window.location.href = "dashboard.html";
+        } else {
+          const error = await response.text();
+          alert("Login failed: " + error);
+        }
+      } catch (err) {
+        alert("Network error: " + err.message);
+      }
+    });
+  </script>
+
 </body>
 </html>
