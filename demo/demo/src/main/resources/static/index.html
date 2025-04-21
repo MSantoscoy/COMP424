@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+
+  <header>
+    <a href="dashboard.html" class="home-click">ExampleSite</a>
+  </header>
+
+  <div class="container">
+    <h2>Register</h2>
+    <form id="registerForm" action="/register" method="post">
+      <label>Username:</label>
+      <input type="text" name="username" required><br>
+
+      <label>First Name:</label>
+      <input type="text" name="firstname" required><br>
+
+      <label>Last Name:</label>
+      <input type="text" name="lastname" required><br>
+
+      <label>Birth Date:</label>
+      <input type="date" name="bday" required><br>
+
+      <label>Email:</label>
+      <input type="email" name="email" required><br>
+
+      <label>Password:</label>
+      <input type="password" name="password" id="password" required><br>
+      
+      <ul class="requirements" id="requirements">
+        <li id="req-length" class="requirement">At least 8 characters</li>
+        <li id="req-upper" class="requirement">At least one uppercase letter</li>
+        <li id="req-lower" class="requirement">At least one lowercase letter</li>
+        <li id="req-number" class="requirement">At least one number</li>
+        <li id="req-special" class="requirement">At least one special character (!@#$%^&*)</li>
+      </ul>
+      
+      <div id="strengthMessage" class="strength"></div>
+
+      <label>Re-enter Password:</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required><br>
+      <div id="matchMessage" class="match-message"></div>
+
+      <div class="g-recaptcha" data-sitekey="6Le1bB4rAAAAAE_Deyha_dazdAw_7qE2mjvFKGVk"></div>
+      <button type="submit">Register</button>
+    </form>
+    <a href="login.html">Already Registered? Login here </a>
+  </div>
+
+  <footer class="footer">
+    2025 ExampleSite. All rights reserved.
+  </footer>
+
+  <script>
+    const passwordInput = document.getElementById('password');
+    const strengthMessage = document.getElementById('strengthMessage');
+    const form = document.getElementById('registerForm');
+  
+    // Password requirements
+    const reqLength = document.getElementById('req-length');
+    const reqUpper = document.getElementById('req-upper');
+    const reqLower = document.getElementById('req-lower');
+    const reqNumber = document.getElementById('req-number');
+    const reqSpecial = document.getElementById('req-special');
+  
+    // Check if password meets each of the requirements
+    function validatePassword(password) {
+      const length = password.length >= 8;
+      const upper = /[A-Z]/.test(password);
+      const lower = /[a-z]/.test(password);
+      const number = /[0-9]/.test(password);
+      const special = /[!@#$%^&*]/.test(password);
+      
+      // isValid is true if all requirements are met
+      // score is the number of requirements met
+      // criteria is an object with boolean values for each requirement to toggle visibility
+      return {
+        isValid: length && upper && lower && number && special,
+        score: [length, upper, lower, number, special].filter(Boolean).length,
+        criteria: { length, upper, lower, number, special }
+      };
+    }
+  
+    passwordInput.addEventListener('input', () => {
+      const val = passwordInput.value;
+      const { score, criteria } = validatePassword(val);
+  
+      // Toggle visibility of each requirement if met
+      reqLength.classList.toggle("met", criteria.length);
+      reqUpper.classList.toggle("met", criteria.upper);
+      reqLower.classList.toggle("met", criteria.lower);
+      reqNumber.classList.toggle("met", criteria.number);
+      reqSpecial.classList.toggle("met", criteria.special);
+  
+      // Show strength message depending on current password strength
+      if (score <= 2) {
+        strengthMessage.textContent = "Weak password";
+        strengthMessage.className = "strength weak";
+      } else if (score === 3 || score === 4) {
+        strengthMessage.textContent = "Medium strength";
+        strengthMessage.className = "strength medium";
+      } else if (score === 5) {
+        strengthMessage.textContent = "Strong password";
+        strengthMessage.className = "strength strong";
+      }
+
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      const matchMessage = document.getElementById('matchMessage');
+
+      // Check if both passwords match
+      function checkPasswordMatch() {
+        const original = passwordInput.value;
+        const confirm = confirmPasswordInput.value;
+
+        // if re-enter input is empty don't display anything
+        if (confirm === "") {
+          matchMessage.textContent = "";
+          matchMessage.className = "match-message";
+          return false;
+        }
+        // if the passwords match display they match
+        if (original === confirm) {
+          matchMessage.textContent = "Passwords match";
+          matchMessage.className = "match-message match";
+          return true;
+        } else { // if they do not match display they don't
+          matchMessage.textContent = "Passwords do not match";
+          matchMessage.className = "match-message";
+          return false;
+        }
+      }
+
+      passwordInput.addEventListener('input', checkPasswordMatch);
+      confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+    });
+  
+    // Prevent form submission if password or captcha are not valid
+    form.addEventListener('submit', function (e) {
+    const { isValid } = validatePassword(passwordInput.value);
+    const passwordsMatch = checkPasswordMatch();
+    const captchaFilled = grecaptcha.getResponse() !== "";
+
+    // Check password strength
+    if (!isValid) {
+      e.preventDefault();
+      alert("Your password does not meet all security requirements.");
+      return;
+    }
+
+    // Check password match
+    if (!passwordsMatch) {
+      e.preventDefault();
+      alert("Passwords do not match.");
+      return;
+    }
+
+    // Check if reCAPTCHA was completed
+    if (!captchaFilled) {
+      e.preventDefault();
+      alert("Please complete the CAPTCHA.");
+      return;
+    }
+
+  });
+    
+  </script>
