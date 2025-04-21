@@ -76,9 +76,10 @@
     <a href="login.html">Already Registered? Login here </a>
 
     <script>
+      const API_BASE = "http://3.18.4.81:8080";
       async function loadSecurityQuestions() {
         try {
-          const response = await fetch("http://localhost:8080/api/v1/questions");
+          const response = await fetch(${API_BASE}/api/v1/questions");
           const questions = await response.json();
 
           const selects = [
@@ -113,6 +114,7 @@
   </footer>
 
   <script>
+    const API_BASE = "http://3.18.4.81:8080";
     const form = document.getElementById("registerForm");
     const passwordInput = document.getElementById("password");
     const confirmPasswordInput = document.getElementById("confirmPassword");
@@ -220,7 +222,7 @@
       };
 
       try {
-        const response = await fetch("http://localhost:8080/api/v1/user/register", {
+        const response = await fetch("${API_BASE}/api/v1/user/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -302,7 +304,7 @@
 
 
       try {
-        const response = await fetch("http://localhost:8080/api/v1/user/register", {
+        const response = await fetch("${API_BASE}/api/v1/user/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
