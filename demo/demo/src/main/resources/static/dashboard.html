@@ -52,7 +52,7 @@
 
   async function loadUser() {
     try {
-      const res = await fetch('${API_BASE}/api/v1/user/me', { headers });
+      const res = await fetch(`${API_BASE}/api/v1/user/me`, { headers });
 
       if (!res.ok) throw new Error("Not authorized");
 
@@ -91,7 +91,7 @@
     };
 
     try {
-      const res = await fetch('${API_BASE}/api/v1/user/update', {
+      const res = await fetch(`${API_BASE}/api/v1/user/update`, {
         method: "PUT",
         headers,
         body: JSON.stringify(updatedData)
