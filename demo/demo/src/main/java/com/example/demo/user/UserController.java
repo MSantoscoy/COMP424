@@ -1,9 +1,9 @@
 package com.example.demo.user;
+import com.example.demo.dto.ChangePasswordRequest;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.UserResponse;
-import com.nimbusds.oauth2.sdk.TokenResponse;
+import com.example.demo.dto.TokenResponse;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

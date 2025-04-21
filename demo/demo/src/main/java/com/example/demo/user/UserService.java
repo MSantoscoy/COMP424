@@ -1,4 +1,5 @@
 package com.example.demo.user;
+import com.example.demo.dto.ChangePasswordRequest;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.UserResponse;
 import com.example.demo.token.TokenService;
@@ -46,10 +47,7 @@ public class UserService {
             throw new IllegalArgumentException("Invalid email or password");
         }
 
-        //check if account is activated
-//        if (!user.isEnabled()) {
-//            throw new IllegalArgumentException("Account not activated");
-//        }
+
 
         return tokenService.generateToken(user.getEmail());
     }

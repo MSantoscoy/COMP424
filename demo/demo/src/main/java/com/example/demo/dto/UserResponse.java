@@ -6,9 +6,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class UserResponse {
     private String email;
     private String fName;
     private String lName;
+
+    public UserResponse(String email, String fName, String lName) {
+        this.email = email;
+        this.fName = fName;
+        this.lName = lName;
+    }
 }

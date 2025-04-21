@@ -4,12 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.*;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+
 @Entity
 @Table(name = "user")
 @NoArgsConstructor // generates the no-args constructor
@@ -89,5 +86,58 @@ public class User {
         if (this.lName == null) {
             this.lName = "noLName";
         }
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public String getlName() {
+        return lName;
+    }
+
+    public String getfName() {
+        return fName;
+    }
+
+    public String getUserPass() {
+        return userPass;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUserPass(String userPass) {
+        this.userPass = userPass;
+    }
+
+
+    public String getFName() {
+        return this.fName;
+    }
+
+    public String getLName() {
+        return this.lName;
+    }
+
+    public void setFName(String fName) {
+        this.fName=fName;
+    }
+
+    public void setLName(String lName) {
+        this.lName=lName;
     }
 }
