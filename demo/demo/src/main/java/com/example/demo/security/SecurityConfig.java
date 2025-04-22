@@ -35,7 +35,8 @@ public class SecurityConfig {
                                 "/forgot-password.html",
                                 "/css/**",
                                 "/js/**",
-                                "/"
+                                "/",
+                                "/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );
@@ -46,8 +47,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://3.18.4.81:8080")); // or "*" for dev testing
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//        config.setAllowedOrigins(List.of("http://3.18.4.81:8080")); // or "*" for dev testing
+//        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//        config.setAllowedHeaders(List.of("*"));
+        config.setAllowedOrigins(List.of("*")); // or "*" for dev testing
+        config.setAllowedMethods(List.of("*"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
