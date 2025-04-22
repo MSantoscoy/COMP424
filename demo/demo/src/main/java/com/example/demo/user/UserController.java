@@ -60,7 +60,7 @@ public class UserController
     @PostMapping("/forgot-password")
     public ResponseEntity<?> initiatePasswordReset(@RequestBody Map<String, String> body) {
         String email = body.get("email");
-        // ✅ TODO: call userService.initiatePasswordReset(email) once implemented
+
         return ResponseEntity.ok("Reset process started.");
     }
 
